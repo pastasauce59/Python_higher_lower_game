@@ -18,33 +18,42 @@ def random_selection():
 def compare(a, b):
     if a['person']['follower_count'] > b['person']['follower_count']:
         data.pop(b['index'])
-        return 'a'
+        a.update({'answer': 'a'})
+        return a
     else:
         data.pop(a['index'])
-        return 'b'
+        b.update({'answer': 'b'})
+        return b
 
 score = 0
 a = random_selection()
-b = random_selection()
-#To ensure 'a' and 'b' never wind up being the same random selection
-while b == a:
+
+keep_playing = True
+while keep_playing:
     b = random_selection()
+    #To ensure 'a' and 'b' never wind up being the same random selection
+    while b == a:
+        b = random_selection()
 
 
-# print(f"Compare A: {a[1]['name']}, a {a[1]['description']}, from {a[1]['country']}.")
-print(f"Compare A: {a['person']['name']}, a {a['person']['description']}, from {a['person']['country']}.")
+    # print(f"Compare A: {a[1]['name']}, a {a[1]['description']}, from {a[1]['country']}.")
+    print(f"Compare A: {a['person']['name']}, a {a['person']['description']}, from {a['person']['country']}.")
 
-print(vs)
+    print(vs)
 
-# print(f"Compare B: {b[1]['name']}, a {b[1]['description']}, from {b[1]['country']}.")
-print(f"Compare B: {b['person']['name']}, a {b['person']['description']}, from {b['person']['country']}.")
+    # print(f"Compare B: {b[1]['name']}, a {b[1]['description']}, from {b[1]['country']}.")
+    print(f"Compare B: {b['person']['name']}, a {b['person']['description']}, from {b['person']['country']}.")
 
-answer = compare(a,b)
-print(f" pssst, the answer is {answer}.")
+    answer = compare(a,b)
+    print(f" pssst, the answer is {answer['answer']}.")
 
-guess = input("Who has more followers? Type 'A' or 'B': ").lower()
-if guess == answer:
-    score += 1
-    print(f"You're right! Current score: {score}")
-else:
-    print(f"Sorry, that's wrong. Final score: {score}")
+    guess = input("Who has more followers? Type 'A' or 'B': ").lower()
+    if guess == answer['answer']:
+        import os
+        os.system('clear')
+        score += 1
+        a = answer
+        print(f"You're right! Current score: {score}")
+    else:
+        print(f"Sorry, that's wrong. Final score: {score}")
+        keep_playing = False
